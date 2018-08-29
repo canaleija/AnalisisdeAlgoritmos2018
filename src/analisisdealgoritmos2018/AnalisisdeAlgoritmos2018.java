@@ -11,6 +11,7 @@ import herramientas.Punto;
 import java.util.ArrayList;
 import java.util.Random;
 import ordenamiento.Burbuja;
+import ordenamiento.InsertSort;
 
 /**
  *
@@ -23,16 +24,22 @@ public class AnalisisdeAlgoritmos2018 {
      */
     public static void main(String[] args) {
       
+        InsertSort insert = new InsertSort();
         Burbuja burbuja = new Burbuja();
-        Punto[] puntos = new Punto[3000];
-        for (int x=0;x<3000;x++){
-        burbuja.ordenar(GenerarDatos.generarDatosAleatorios(x,501));
-        puntos[x] = new Punto(x,burbuja.getTiempo_total());
+        Punto[] puntos = new Punto[10000];
+        Punto[] puntos1 = new Punto[10000];
+        for (int x=0;x<10000;x++){
+        double[] datos = GenerarDatos.generarDatosAleatorios(x,501);
+        insert.ordenar(datos.clone());
+        burbuja.ordenar(datos);
+        puntos[x] = new Punto(x,insert.getTiempo_total());
+        puntos1[x] = new Punto(x,burbuja.getTiempo_total());
         System.out.println(x);
         }
        
         Grafica g = new Grafica("Ejemplo", "n","tiempo");
-        g.agregarSerie("Serie1", puntos);
+        g.agregarSerie("SerieInsert", puntos);
+        g.agregarSerie("SerieBurbuja", puntos1);
         g.crearGrafica();
         
         

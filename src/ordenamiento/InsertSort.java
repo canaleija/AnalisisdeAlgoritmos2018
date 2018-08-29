@@ -9,36 +9,38 @@ package ordenamiento;
  *
  * @author Roberto Cruz Leija
  */
-public class Burbuja implements Algoritmo{
+public class InsertSort implements Algoritmo{
     
     private long tiempo_inicio;
     private long tiempo_final;
     private long tiempo_total;
 
-    public Burbuja() {
+    public InsertSort() {
         this.tiempo_final = 0;
         this.tiempo_inicio = 0;
         this.tiempo_total = 0;
     }
     
     @Override
-    public void ordenar (double[] datos){
+    public void ordenar (double[] arreglo){
         this.tiempo_inicio = System.currentTimeMillis();
-        double temp;
-        for (int i = 1; i < datos.length;i++)
-            for(int j=0; j < datos.length-1;j++){
-                // preguntamos
-                if(datos[j]>datos[j+1]){
-                    temp = datos[j];
-                    datos[j]=datos[j+1];
-                    datos[j+1] = temp;
-                }
-            }
+        double aux;
+        for(int i=1; i <arreglo.length;i++){	
+	for(int j = i; j > 0;j--){
+	// comparaciones
+	if (arreglo[j]<arreglo[j-1]){
+	aux = arreglo[j];
+	arreglo[j] = arreglo[j-1];
+	arreglo[j-1] = aux;
+	
+	}
+	}
+
        this.tiempo_final = System.currentTimeMillis();
        this.tiempo_total = this.tiempo_final-this.tiempo_inicio;
         
     }
-
+    }
     @Override
     public long getTiempo_total() {
         return tiempo_total;
@@ -46,5 +48,5 @@ public class Burbuja implements Algoritmo{
     
     
     
-     
+    
 }
