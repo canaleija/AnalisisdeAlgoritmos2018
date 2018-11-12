@@ -14,34 +14,26 @@ import java.util.Random;
  */
 public class OperadoresGenetico {
     
-    public static Individuo cruza(Individuo madre,Individuo padre){
-    int mask[] = new int[]{1,1,1,0,0,0};
-    int genotipo1[] = new int[padre.getGenotipo().length];
-    int genotipo2[] = new int[padre.getGenotipo().length];
-    Individuo hijo1,hijo2;
+    public static Individuo cruza(Individuo madre,Individuo padre, int capacidadMocila){
+   
+    Individuo hijo1 = generarIndividuoValido(madre,padre,capacidadMocila);
+    Individuo hijo2 = generarIndividuoValido(madre,padre,capacidadMocila);
      
-    for(int x=0;x<mask.length;x++){
-    if(mask[x]==1){
-    genotipo1[x]=madre.getGenotipo()[x];
-    genotipo2[x]=padre.getGenotipo()[x];
-    }else{
-    genotipo1[x]=padre.getGenotipo()[x];
-    genotipo2[x]=madre.getGenotipo()[x];
-    
-    }
-    
-    }
-    hijo1 = new Individuo(genotipo1);
-    hijo2 = new Individuo(genotipo2);
     if (hijo1.getFitness()>hijo2.getFitness()){
     return hijo1;
     }
      return hijo2;
+     
+    
     }
     
-    public static Individuo selecciónAleatorio(ArrayList<Individuo> poblacion){
+    public static Individuo selecciónAleatorio(ArrayList<Individuo> poblacion, int capacidad){
+              
         Random ran = new Random();
-        int pos = ran.nextInt(poblacion.size());
+        int pos;
+        do{
+            pos = ran.nextInt(poblacion.size());
+        }while(!poblacion.get(pos).esValido(capacidad));
         return poblacion.get(pos);
     }
     
@@ -56,5 +48,31 @@ public class OperadoresGenetico {
         }
        ind.calcualrFitness();
     
+    }
+
+    private static Individuo generarIndividuoValido(Individuo madre, Individuo padre, int capacidadMocila) {
+     Individuo hijo;  
+     int mask[] = new int[madre.getGenotipo().length];
+     int genotipo1[] = new int[padre.getGenotipo().length];
+     Random ran = new Random();
+   
+     do{
+   
+    for(int x=0;x< mask.length;x++)
+        mask[x]= ran.nextInt(2);
+    
+     for(int x=0;x<mask.length;x++){
+    if(mask[x]==1){
+    genotipo1[x]=madre.getGenotipo()[x];
+    }else{
+    genotipo1[x]=padre.getGenotipo()[x];
+    }
+    }
+    hijo = new Individuo(genotipo1);
+    // validar al individuo 
+    //System.out.println(h++);
+    }
+    while(!hijo.esValido(capacidadMocila));
+     return hijo;
     }
 }

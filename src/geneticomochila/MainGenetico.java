@@ -26,7 +26,7 @@ public class MainGenetico {
       Genetico.articulos.add(new Articulo(23, 60));
       Genetico.articulos.add(new Articulo(4, 50));
       
-      Genetico gen = new Genetico(50, 200, 0.3, 6);
+      Genetico gen = new Genetico(50, 100000, 0.0003, 6,80);
       gen.evolucionar();
     }
     

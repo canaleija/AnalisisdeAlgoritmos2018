@@ -19,13 +19,15 @@ public class Genetico {
     private int numGeneraciones;
     private double probMuta;
     private ArrayList<Individuo> poblacionActual;
+    private int capacidadMochila;
 
-    public Genetico(int tamPoblacion, int numGeneraciones, double probMuta, int numArt) {
+    public Genetico(int tamPoblacion, int numGeneraciones, double probMuta, int numArt, int capacidadMochila) {
         this.tamPoblacion = tamPoblacion;
         this.numGeneraciones = numGeneraciones;
         this.probMuta = probMuta;
         this.poblacionActual = new ArrayList<>();
         this.numArticulos = numArt;
+        this.capacidadMochila = capacidadMochila;
     }
     
     public void evolucionar(){
@@ -40,20 +42,22 @@ public class Genetico {
         // generamos un proceso evolutivo 
         for(int g=0;g<this.numGeneraciones;g++){
             // construir una población nueva 
-            double mejor = -1;
+            Individuo mejor = this.poblacionActual.get(0);
             ArrayList<Individuo> nuevaPoblación = new ArrayList<>();
             for(int i=0;i<this.tamPoblacion;i++){
-                Individuo madre = OperadoresGenetico.selecciónAleatorio(this.poblacionActual);
-                Individuo padre = OperadoresGenetico.selecciónAleatorio(this.poblacionActual);
-                Individuo hijo = OperadoresGenetico.cruza(madre, padre);
+                Individuo madre = OperadoresGenetico.selecciónAleatorio(this.poblacionActual,capacidadMochila);
+                Individuo padre = OperadoresGenetico.selecciónAleatorio(this.poblacionActual,capacidadMochila);
+                Individuo hijo = OperadoresGenetico.cruza(madre, padre, capacidadMochila);
                 if(Math.random()<=this.probMuta){
                 OperadoresGenetico.mutar(hijo);
                 }
-                if(hijo.getFitness()>mejor)mejor=hijo.getFitness();
+                if(hijo.getFitness()>mejor.getFitness()){
+                    mejor=hijo;
+                }
                 nuevaPoblación.add(hijo);
                 
             }
-        System.out.println(mejor);
+        System.out.println(mejor.toString());
             // atualizar la generación
         this.poblacionActual.clear();
         this.poblacionActual = (ArrayList<Individuo>)nuevaPoblación.clone();

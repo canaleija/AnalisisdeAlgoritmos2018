@@ -5,6 +5,7 @@
  */
 package geneticomochila;
 
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -70,21 +71,36 @@ public class Individuo {
     // recorrer el genotipo
         int acumulado = 0;
         for(int x=0; x<this.genotipo.length;x++){
-            acumulado+=Genetico.articulos.get(x).getPeso();
-            if(acumulado>capacidad){
+            if(genotipo[x]==1){
+                  acumulado+=Genetico.articulos.get(x).getPeso();
+                if(acumulado>capacidad){
                 return false;
             }
+            }
+          
         }
         return true;
     }
     
     public void calcualrFitness(){
+       this.fitness = 0;
     // recorrer el genotipo
         for(int x=0; x<this.genotipo.length;x++){
             if(this.genotipo[x]==1){
                 this.fitness+=Genetico.articulos.get(x).getBeneficio();
             }
         }
+    }
+
+    @Override
+    public String toString() {
+       int suma=0;
+       for(int x=0;x<genotipo.length;x++){
+           if(genotipo[x]==1)
+           suma+=Genetico.articulos.get(x).getPeso();
+       } 
+       String aux = Arrays.toString(genotipo)+" F:"+this.fitness+" E:"+suma;
+      return aux;       
     }
     
     
